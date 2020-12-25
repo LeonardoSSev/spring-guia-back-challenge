@@ -5,27 +5,17 @@ import java.sql.Timestamp;
 
 public class Transacao implements Serializable {
 
-    private String descricao;
+    private static final long serialVersionUID = 369718317290262550L;
 
-    private Timestamp data;
+    private final String descricao;
 
-    private int valor;
+    private final Timestamp data;
 
-    public Transacao(String descricao, Timestamp data, int valor) {
+    private final int valor;
+
+    public Transacao(final String descricao, final Timestamp data, final int valor) {
         this.descricao = descricao;
         this.data = data;
         this.valor = valor;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public Timestamp getData() {
-        return data;
-    }
-
-    public int getValor() {
-        return valor;
     }
 }

@@ -6,28 +6,28 @@ public class TransacaoFiltro implements Serializable {
 
     private static final long serialVersionUID = 4616419055955159119L;
 
-    private int id;
+    private final int id;
 
-    private int mes;
+    private final int mes;
 
-    private int ano;
+    private final int ano;
 
-    public TransacaoFiltro(int id, int mes, int ano) {
+    public TransacaoFiltro(final int id, final int mes, final int ano) {
         this.id = id;
         this.mes = mes;
         this.ano = ano;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public int getMes() {
-        return mes;
+        return this.mes;
     }
 
     public int getAno() {
-        return ano;
+        return this.ano;
     }
 
 }
