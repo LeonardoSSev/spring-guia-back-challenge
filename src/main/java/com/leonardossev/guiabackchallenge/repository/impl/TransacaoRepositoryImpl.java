@@ -2,7 +2,7 @@ package com.leonardossev.guiabackchallenge.repository.impl;
 
 import com.leonardossev.guiabackchallenge.model.Transacao;
 import com.leonardossev.guiabackchallenge.model.TransacaoFiltro;
-import com.leonardossev.guiabackchallenge.repository.TransacaoRepository;
+import com.leonardossev.guiabackchallenge.repository.ITransacaoRepository;
 import com.leonardossev.guiabackchallenge.type.TransacaoAlcance;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +16,10 @@ import java.time.Month;
  *
  * @author leonardossev
  * @author https://github.com/leonardossev
- * @version 25/12/2020
+ * @version 26/12/2020
  */
 @Repository
-public class TransacaoRepositoryImpl implements TransacaoRepository {
+public class TransacaoRepositoryImpl implements ITransacaoRepository {
 
     /**
      * Esse método é responsável por retornar uma nova transação com base no filtro e índice fornecido.
@@ -30,7 +30,7 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
      */
     @Override
     public Transacao obterTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
-        var descricao = this.obterDescricaoTransacao(transacaoFiltro.getMes());
+        var descricao = this.obterDescricaoTransacao(indice);
         var valor = this.obterValorTransacao(transacaoFiltro, indice);
         var data = this.obterDataTransacao(transacaoFiltro, indice);
 
@@ -42,21 +42,17 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
      * Com base no tamanho mínimo para os caracteres da transação e no mês, é definido um valor entre 10 e 60 (tamanho
      * mínimo e máximo da descrição da transação).
      *
-     * @param mes representa o mês cuja transação foi realizada.
+     * @param indice representa o índice da listagem de transações.
      * @return descricao da transação.
      */
-    private String obterDescricaoTransacao(final int mes) {
-        var quantidadeCaracteres = TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getValor();
+    private String obterDescricaoTransacao(final int indice) {
+        var quantidadeCaracteres = indice % (TransacaoAlcance.ALCANCE_MAXIMO_DESCRICAO.getValor() + 1);
 
-        if (mes > TransacaoAlcance.ALCANCE_MINIMO_MES.getValor() + 1) {
-            quantidadeCaracteres = mes * 5;
+        if (quantidadeCaracteres < TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getValor()) {
+            quantidadeCaracteres = quantidadeCaracteres + TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getValor();
         }
 
-        if (quantidadeCaracteres == TransacaoAlcance.ALCANCE_MAXIMO_MES.getValor()) {
-            quantidadeCaracteres--;
-        }
-
-        var descricaoBase = "Lorem ipsum dolor sit amet consectetur adipisicing elit, earu.";
+        var descricaoBase = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum deleniti nostrum.";
 
         return descricaoBase.substring(0, quantidadeCaracteres);
     }
@@ -94,7 +90,7 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
      * @return data, no formato long, da transação.
      */
     private long obterDataTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
-        var dia = this.obterDia(transacaoFiltro, indice);
+        var dia = this.obterDia(transacaoFiltro.getMes(), indice);
 
         var dataHora = LocalDateTime.of(
             transacaoFiltro.getAno(), transacaoFiltro.getMes(), dia, 0, 0, 0
@@ -103,14 +99,20 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
         return Timestamp.valueOf(dataHora).getTime();
     }
 
-    private int obterDia(final TransacaoFiltro transacaoFiltro, final int indice) {
+    private int obterDia(final int mes, final int indice) {
         var diaMaximo = TransacaoAlcance.ALCANCE_MAXIMO_DIA_MES_GERAL.getValor();
 
-        if (transacaoFiltro.getMes() == Month.FEBRUARY.getValue()) {
+        if (mes == Month.FEBRUARY.getValue()) {
             diaMaximo = TransacaoAlcance.ALCANCE_MAXIMO_DIA_MES_FEVEREIRO.getValor();
         }
 
-        return indice % diaMaximo;
+        var dia = indice % diaMaximo;
+
+        if (dia == 0) {
+            return ++dia;
+        }
+
+        return dia;
     }
 
 }

@@ -43,7 +43,7 @@ public class TransacaoRepositoryTest {
     void deveRetornarUmaTransacaoComTamanhoMaximoDaDescricao() {
         var filtro = new TransacaoFiltro(1000, 12, 2020);
 
-        var transacao = this.transacaoRepository.obterTransacao(filtro, this.INDICE);
+        var transacao = this.transacaoRepository.obterTransacao(filtro, 60);
 
         assertEquals(TransacaoAlcance.ALCANCE_MAXIMO_DESCRICAO.getValor(), transacao.getDescricao().length());
     }
@@ -52,7 +52,7 @@ public class TransacaoRepositoryTest {
     void deveRetornarUmaTransacaoComTamanhoMinimoDaDescricao() {
         var filtro = new TransacaoFiltro(1000, 1, 2020);
 
-        var transacao = this.transacaoRepository.obterTransacao(filtro, this.INDICE);
+        var transacao = this.transacaoRepository.obterTransacao(filtro, 0);
 
         assertEquals(TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getValor(), transacao.getDescricao().length());
     }

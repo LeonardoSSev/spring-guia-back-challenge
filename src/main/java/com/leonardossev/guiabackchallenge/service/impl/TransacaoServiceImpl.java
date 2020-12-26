@@ -3,7 +3,7 @@ package com.leonardossev.guiabackchallenge.service.impl;
 import com.leonardossev.guiabackchallenge.model.Transacao;
 import com.leonardossev.guiabackchallenge.model.TransacaoFiltro;
 import com.leonardossev.guiabackchallenge.repository.impl.TransacaoRepositoryImpl;
-import com.leonardossev.guiabackchallenge.service.TransacaoService;
+import com.leonardossev.guiabackchallenge.service.ITransacaoService;
 import com.leonardossev.guiabackchallenge.type.TransacaoAlcance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ import java.util.List;
  *
  * @author leonardossev
  * @author https://github.com/leonardossev
- * @version 25/12/2020
+ * @version 26/12/2020
  */
 @Service
-public class TransacaoServiceImpl implements TransacaoService {
+public class TransacaoServiceImpl implements ITransacaoService {
 
     @Autowired
     private TransacaoRepositoryImpl transacaoRepository;
