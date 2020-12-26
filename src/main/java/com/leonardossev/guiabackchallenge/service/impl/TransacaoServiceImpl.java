@@ -12,6 +12,13 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa o service reponsável por validar o filtro fornecido e, em seguida, listar as transações.
+ *
+ * @author leonardossev
+ * @author https://github.com/leonardossev
+ * @version 25/12/2020
+ */
 @Service
 public class TransacaoServiceImpl implements TransacaoService {
 

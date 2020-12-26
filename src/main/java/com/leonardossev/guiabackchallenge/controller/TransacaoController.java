@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Representa o controller principal que contém o endpoint para listagem das transações.
+ *
+ * @author leonardossev
+ * @author https://github.com/leonardossev
+ * @version 25/12/2020
+ */
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class TransacaoController {
@@ -23,8 +30,9 @@ public class TransacaoController {
     @GetMapping(value = "/{id}/transacoes/{ano}/{mes}")
     public ResponseEntity<List<Transacao>> listarTransacao(final TransacaoFiltro transacaoFiltro) {
         return new ResponseEntity<List<Transacao>>(
-                    this.transacaoService.listarTransacao(transacaoFiltro),
-                    HttpStatus.OK);
+            this.transacaoService.listarTransacao(transacaoFiltro),
+            HttpStatus.OK
+        );
     }
 
 }

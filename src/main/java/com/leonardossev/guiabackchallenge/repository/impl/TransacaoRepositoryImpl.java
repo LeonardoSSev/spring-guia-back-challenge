@@ -9,18 +9,41 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * Representa o repositório que, em uma aplicação real, iria apenas fazer uma busca na base de dados. Porém, para o
+ * desafio, esse repositório irá gerar os dados com base nos valores do filtro e índice.
+ *
+ * @author leonardossev
+ * @author https://github.com/leonardossev
+ * @version 25/12/2020
+ */
 @Repository
 public class TransacaoRepositoryImpl implements TransacaoRepository {
 
+    /**
+     * Esse método é responsável por retornar uma nova transação com base no filtro e índice fornecido.
+     *
+     * @param transacaoFiltro representa o filtro da listagem de transações.
+     * @param indice representa o índice da listagem de transações.
+     * @return transação.
+     */
     @Override
     public Transacao obterTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
         var descricao = this.obterDescricaoTransacao(transacaoFiltro.getMes());
         var valor = this.obterValorTransacao(transacaoFiltro, indice);
-        var data = this.obterDataTransacao(transacaoFiltro, indice);
+        var data = this.obterDataTransacao(transacaoFiltro);
 
         return new Transacao(descricao, data, valor);
     }
 
+    /**
+     * Esse método retorna a descrição da transação.
+     * Com base no tamanho mínimo para os caracteres da transação e no mês, é definido um valor entre 10 e 60 (tamanho
+     * mínimo e máximo da descrição da transação).
+     *
+     * @param mes representa o mês cuja transação foi realizada.
+     * @return descricao da transação.
+     */
     private String obterDescricaoTransacao(final int mes) {
         var quantidadeCaracteres = TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getAlcance();
 
@@ -37,11 +60,38 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
         return descricaoBase.substring(0, quantidadeCaracteres);
     }
 
+
+    /**
+     * Esse método retorna o valor da transação.
+     * Com base no tamanho mínimo para os caracteres da transação e no mês, é definido um valor entre 10 e 60 (tamanho
+     * mínimo e máximo da descrição da transação).
+     *
+     * @param transacaoFiltro representa o filtro da listagem de transações.
+     * @param indice representa o índice da listagem de transações.
+     * @return valor da transação.
+     */
     private int obterValorTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
-        return transacaoFiltro.getId() + transacaoFiltro.getAno() + indice;
+        var valor = transacaoFiltro.getId() + transacaoFiltro.getAno() + indice;
+
+        if (valor > TransacaoAlcance.ALCANCE_MAXIMO_VALOR.getAlcance()) {
+            valor--;
+        }
+
+        if (valor < TransacaoAlcance.ALCANCE_MINIMO_VALOR.getAlcance()) {
+            valor++;
+        }
+
+        return valor;
     }
 
-    private Timestamp obterDataTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
+    /**
+     * Esse método retorna a data cuja transação foi realizada.
+     * É retornado o primeiro momento do dia do mês do ano que foram fornecidos no filtro.
+     *
+     * @param transacaoFiltro representa o filtro da listagem de transações.
+     * @return data, no formato Timestamp, da transação.
+     */
+    private Timestamp obterDataTransacao(final TransacaoFiltro transacaoFiltro) {
         var dataHora = LocalDateTime.of(
             transacaoFiltro.getAno(), transacaoFiltro.getMes(), 1, 0, 0, 0
         );
