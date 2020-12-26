@@ -17,13 +17,13 @@ public enum TransacaoAlcance {
     ALCANCE_MINIMO_VALOR(-9999999),
     ALCANCE_MAXIMO_VALOR(9999999);
 
-    private final int alcance;
+    private final int valor;
 
-    TransacaoAlcance(final int alcance) {
-        this.alcance = alcance;
+    TransacaoAlcance(final int valor) {
+        this.valor = valor;
     }
 
-    public int getAlcance() {
-        return this.alcance;
+    public int getValor() {
+        return this.valor;
     }
 }

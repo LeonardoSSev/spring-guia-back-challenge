@@ -47,15 +47,15 @@ public class TransacaoServiceImpl implements TransacaoService {
     }
 
     private void validarId(final int id) {
-        if (id < TransacaoAlcance.ALCANCE_MINIMO_ID.getAlcance() ||
-            id > TransacaoAlcance.ALCANCE_MAXIMO_ID.getAlcance()) {
+        if (id < TransacaoAlcance.ALCANCE_MINIMO_ID.getValor() ||
+            id > TransacaoAlcance.ALCANCE_MAXIMO_ID.getValor()) {
             throw new InvalidParameterException("Oops! O id informado não é válido.");
         }
     }
 
     private void validarMes(final int mes) {
-        if (mes < TransacaoAlcance.ALCANCE_MINIMO_MES.getAlcance() ||
-            mes > TransacaoAlcance.ALCANCE_MAXIMO_MES.getAlcance()) {
+        if (mes < TransacaoAlcance.ALCANCE_MINIMO_MES.getValor() ||
+            mes > TransacaoAlcance.ALCANCE_MAXIMO_MES.getValor()) {
             throw new InvalidParameterException("Oops! O mês informado não válido.");
         }
     }
