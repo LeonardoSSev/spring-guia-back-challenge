@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.Month;
 
 /**
  * Representa o repositório que, em uma aplicação real, iria apenas fazer uma busca na base de dados. Porém, para o
@@ -31,9 +32,9 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
     public Transacao obterTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
         var descricao = this.obterDescricaoTransacao(transacaoFiltro.getMes());
         var valor = this.obterValorTransacao(transacaoFiltro, indice);
-        var data = this.obterDataTransacao(transacaoFiltro);
+        var data = this.obterDataTransacao(transacaoFiltro, indice);
 
-        return new Transacao(descricao, data.getTime(), valor);
+        return new Transacao(descricao, data, valor);
     }
 
     /**
@@ -86,17 +87,36 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
 
     /**
      * Esse método retorna a data cuja transação foi realizada.
-     * É retornado o primeiro momento do dia do mês do ano que foram fornecidos no filtro.
+     * É retornado um dia aleatório primeiro momento do dia do mês do ano que foram fornecidos no filtro.
      *
      * @param transacaoFiltro representa o filtro da listagem de transações.
-     * @return data, no formato Timestamp, da transação.
+     * @param indice representa o índice da listagem de transações.
+     * @return data, no formato long, da transação.
      */
-    private Timestamp obterDataTransacao(final TransacaoFiltro transacaoFiltro) {
+    private long obterDataTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
+        var dia = this.obterDia(transacaoFiltro, indice);
+
         var dataHora = LocalDateTime.of(
-            transacaoFiltro.getAno(), transacaoFiltro.getMes(), 1, 0, 0, 0
+            transacaoFiltro.getAno(), transacaoFiltro.getMes(), dia, 0, 0, 0
         );
 
-        return Timestamp.valueOf(dataHora);
+        return Timestamp.valueOf(dataHora).getTime();
+    }
+
+    private int obterDia(final TransacaoFiltro transacaoFiltro, final int indice) {
+        var diaMaximo = TransacaoAlcance.ALCANCE_MAXIMO_DIA_MES_GERAL.getValor();
+
+        if (transacaoFiltro.getMes() == Month.FEBRUARY.getValue()) {
+            diaMaximo = TransacaoAlcance.ALCANCE_MAXIMO_DIA_MES_FEVEREIRO.getValor();
+        }
+
+        var valorAuxiliar = 0;
+
+        if (indice == 0) {
+            valorAuxiliar++;
+        }
+
+        return (indice + valorAuxiliar) % diaMaximo;
     }
 
 }
