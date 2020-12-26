@@ -2,8 +2,9 @@ package com.leonardossev.guiabackchallenge.service;
 
 import com.leonardossev.guiabackchallenge.model.Transacao;
 import com.leonardossev.guiabackchallenge.model.TransacaoFiltro;
-import com.leonardossev.guiabackchallenge.service.impl.GeradorTransacaoServiceImpl;
+import com.leonardossev.guiabackchallenge.repository.impl.TransacaoRepositoryImpl;
 import com.leonardossev.guiabackchallenge.service.impl.TransacaoServiceImpl;
+import com.leonardossev.guiabackchallenge.type.TransacaoAlcance;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,14 +23,10 @@ import static org.mockito.Mockito.when;
 public class TransacaoServiceTest {
 
     @Mock
-    private GeradorTransacaoServiceImpl geradorTransacaoService;
+    private TransacaoRepositoryImpl transacaoRepository;
 
     @InjectMocks
     private TransacaoServiceImpl transacaoService;
-
-    private final int ID_ALCANCE_MAXIMO = 100000;
-
-    private final int ID_ALCANCE_MINIMO = 1000;
 
     @Test
     public void deveRetornarListaCujoTamanhoIgualAoMesMultiplicadoPeloPrimeiroDigitoDoId() {
@@ -53,7 +50,7 @@ public class TransacaoServiceTest {
     @Test
     public void deveLancarInvalidParameterExceptionQuandoIdFornecidoForMaiorQueAlcancePermitido()
             throws InvalidParameterException {
-        var id = this.ID_ALCANCE_MAXIMO + 1;
+        var id = TransacaoAlcance.ALCANCE_MAXIMO_ID.ordinal() + 1;
 
         var transacaoFiltro = new TransacaoFiltro(id, 12, 2020);
 
@@ -63,7 +60,7 @@ public class TransacaoServiceTest {
     @Test
     public void deveLancarInvalidParameterExceptionQuandoMesFornecidoForMenorQueAlcancePermitido()
             throws InvalidParameterException {
-        var id = this.ID_ALCANCE_MINIMO - 1;
+        var id = TransacaoAlcance.ALCANCE_MINIMO_ID.ordinal() - 1;
 
         var transacaoFiltro = new TransacaoFiltro(id, 0, 2020);
 
@@ -83,7 +80,7 @@ public class TransacaoServiceTest {
         var data = Timestamp.valueOf(LocalDateTime.now());
         var valor = 10;
 
-        when(this.geradorTransacaoService.gerarTransacao(transacaoFiltro, 1)).thenReturn(new Transacao(descricao, data, valor));
+        when(this.transacaoRepository.obterTransacao(transacaoFiltro, 1)).thenReturn(new Transacao(descricao, data, valor));
     }
 
 }
