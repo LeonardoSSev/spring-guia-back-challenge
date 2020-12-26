@@ -30,4 +30,16 @@ public class Transacao implements Serializable {
         this.data = data;
         this.valor = valor;
     }
+
+    public String getDescricao() {
+        return this.descricao;
+    }
+
+    public Timestamp getData() {
+        return this.data;
+    }
+
+    public int getValor() {
+        return this.valor;
+    }
 }
