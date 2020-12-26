@@ -2,7 +2,7 @@ package com.leonardossev.guiabackchallenge.controller;
 
 import com.leonardossev.guiabackchallenge.model.Transacao;
 import com.leonardossev.guiabackchallenge.model.TransacaoFiltro;
-import com.leonardossev.guiabackchallenge.service.TransacaoService;
+import com.leonardossev.guiabackchallenge.service.impl.TransacaoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +25,7 @@ import java.util.List;
 public class TransacaoController {
 
     @Autowired
-    private TransacaoService transacaoService;
+    private TransacaoServiceImpl transacaoService;
 
     @GetMapping(value = "/{id}/transacoes/{ano}/{mes}")
     public ResponseEntity<List<Transacao>> listarTransacao(final TransacaoFiltro transacaoFiltro) {

@@ -5,7 +5,7 @@ import com.leonardossev.guiabackchallenge.model.TransacaoFiltro;
 
 import java.util.List;
 
-public interface TransacaoService {
+public interface ITransacaoService {
 
     List<Transacao> listarTransacao(TransacaoFiltro transacaoFiltro);
 }
