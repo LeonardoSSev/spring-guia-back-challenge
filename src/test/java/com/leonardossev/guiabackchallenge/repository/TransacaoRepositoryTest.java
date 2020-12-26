@@ -8,7 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Calendar;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 public class TransacaoRepositoryTest {
@@ -52,6 +55,34 @@ public class TransacaoRepositoryTest {
         var transacao = this.transacaoRepository.obterTransacao(filtro, this.INDICE);
 
         assertEquals(TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getValor(), transacao.getDescricao().length());
+    }
+
+    @Test
+    void deveRetornarUmaTransacaoComDiaValido() {
+        var filtro = new TransacaoFiltro(1000, 1, 2020);
+
+        var transacao = this.transacaoRepository.obterTransacao(filtro, this.INDICE);
+
+        var calendario = Calendar.getInstance();
+        calendario.setTimeInMillis(transacao.getData());
+
+        var dia = calendario.get(Calendar.DAY_OF_MONTH);
+
+        assertTrue(dia <= TransacaoAlcance.ALCANCE_MAXIMO_DIA_MES_GERAL.getValor());
+    }
+
+    @Test
+    void deveRetornarUmaTransacaoComDiaValidoQuandoMesForFevereiro() {
+        var filtro = new TransacaoFiltro(1000, 2, 2020);
+
+        var transacao = this.transacaoRepository.obterTransacao(filtro, this.INDICE);
+
+        var calendario = Calendar.getInstance();
+        calendario.setTimeInMillis(transacao.getData());
+
+        var dia = calendario.get(Calendar.DAY_OF_MONTH);
+
+        assertTrue(dia <= TransacaoAlcance.ALCANCE_MAXIMO_DIA_MES_FEVEREIRO.getValor());
     }
 
 }
