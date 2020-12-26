@@ -4,6 +4,8 @@ Esse repositório é responsável pela resolução do desafio para backend para 
 
 ## Projeto
 
+O projeto foi deployado no [Heroku](https://heroku.com) e você pode acessá-lo por [aqui](https://polar-depths-90923.herokuapp.com/).
+
 O projeto foi desenvolvido com [Spring Boot](https://spring.io/projects/spring-boot) e [Gradle](https://gradle.org/).
 
 Foi implementado testes unitários para o serviço e repositório principal da aplicação.
