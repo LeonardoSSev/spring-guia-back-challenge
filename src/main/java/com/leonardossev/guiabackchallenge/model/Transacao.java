@@ -1,7 +1,6 @@
 package com.leonardossev.guiabackchallenge.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * Representa uma transação de acordo com o contrato estabelecido no desafio.
@@ -16,7 +15,7 @@ public class Transacao implements Serializable {
 
     private final String descricao;
 
-    private final Timestamp data;
+    private final long data;
 
     private final int valor;
 
@@ -25,7 +24,7 @@ public class Transacao implements Serializable {
      * @param data representa a data e hora, no formato Timestamp, da transação
      * @param valor representa o valor, em formato inteiro, da transação
      */
-    public Transacao(final String descricao, final Timestamp data, final int valor) {
+    public Transacao(final String descricao, final long data, final int valor) {
         this.descricao = descricao;
         this.data = data;
         this.valor = valor;
@@ -35,7 +34,7 @@ public class Transacao implements Serializable {
         return this.descricao;
     }
 
-    public Timestamp getData() {
+    public long getData() {
         return this.data;
     }
 

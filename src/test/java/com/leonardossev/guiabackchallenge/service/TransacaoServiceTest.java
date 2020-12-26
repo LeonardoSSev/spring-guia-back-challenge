@@ -32,7 +32,7 @@ public class TransacaoServiceTest {
     public void deveRetornarListaCujoTamanhoIgualAoMesMultiplicadoPeloPrimeiroDigitoDoId() {
         var transacaoFiltro = new TransacaoFiltro(1000, 1, 2020);
 
-        this.prepararGeracaoTransacao(transacaoFiltro);
+        this.prepararTransacao(transacaoFiltro);
 
         var transacaoLista = this.transacaoService.listarTransacao(transacaoFiltro);
 
@@ -75,12 +75,14 @@ public class TransacaoServiceTest {
         assertThrows(InvalidParameterException.class, () -> this.transacaoService.listarTransacao(transacaoFiltro));
     }
 
-    private void prepararGeracaoTransacao(TransacaoFiltro transacaoFiltro) {
-        var descricao = "Lorem ipsum";
+    private void prepararTransacao(TransacaoFiltro transacaoFiltro) {
+        var descricao = "Lorem ipsu";
         var data = Timestamp.valueOf(LocalDateTime.now());
         var valor = 10;
 
-        when(this.transacaoRepository.obterTransacao(transacaoFiltro, 1)).thenReturn(new Transacao(descricao, data, valor));
+        when(this.transacaoRepository.obterTransacao(transacaoFiltro, 1)).thenReturn(
+            new Transacao(descricao, data.getTime(), valor)
+        );
     }
 
 }

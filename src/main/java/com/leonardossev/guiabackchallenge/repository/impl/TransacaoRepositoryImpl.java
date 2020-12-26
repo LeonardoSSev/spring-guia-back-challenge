@@ -33,7 +33,7 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
         var valor = this.obterValorTransacao(transacaoFiltro, indice);
         var data = this.obterDataTransacao(transacaoFiltro);
 
-        return new Transacao(descricao, data, valor);
+        return new Transacao(descricao, data.getTime(), valor);
     }
 
     /**
