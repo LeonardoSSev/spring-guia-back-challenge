@@ -8,6 +8,8 @@ O projeto foi deployado no [Heroku](https://heroku.com) e você pode acessá-lo 
 
 O projeto foi desenvolvido com [Spring Boot](https://spring.io/projects/spring-boot) e [Gradle](https://gradle.org/).
 
+Foi utilizado a versão 11 do Java.
+
 Foi implementado testes unitários para o serviço e repositório principal da aplicação.
 
 ### Versionamento
