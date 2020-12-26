@@ -110,13 +110,7 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
             diaMaximo = TransacaoAlcance.ALCANCE_MAXIMO_DIA_MES_FEVEREIRO.getValor();
         }
 
-        var valorAuxiliar = 0;
-
-        if (indice == 0) {
-            valorAuxiliar++;
-        }
-
-        return (indice + valorAuxiliar) % diaMaximo;
+        return indice % diaMaximo;
     }
 
 }

@@ -37,7 +37,7 @@ public class TransacaoServiceImpl implements TransacaoService {
 
         var transacaoLista = new ArrayList<Transacao>();
 
-        for (int i = 0; i < quantidadeTransacoes; i++) {
+        for (int i = 1; i <= quantidadeTransacoes; i++) {
             var transacao = this.transacaoRepository.obterTransacao(transacaoFiltro, i);
 
             transacaoLista.add(transacao);
