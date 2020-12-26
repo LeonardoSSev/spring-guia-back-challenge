@@ -45,13 +45,13 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
      * @return descricao da transação.
      */
     private String obterDescricaoTransacao(final int mes) {
-        var quantidadeCaracteres = TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getAlcance();
+        var quantidadeCaracteres = TransacaoAlcance.ALCANCE_MINIMO_DESCRICAO.getValor();
 
-        if (mes > TransacaoAlcance.ALCANCE_MINIMO_MES.getAlcance()) {
+        if (mes > TransacaoAlcance.ALCANCE_MINIMO_MES.getValor() + 1) {
             quantidadeCaracteres = mes * 5;
         }
 
-        if (quantidadeCaracteres == TransacaoAlcance.ALCANCE_MAXIMO_MES.getAlcance()) {
+        if (quantidadeCaracteres == TransacaoAlcance.ALCANCE_MAXIMO_MES.getValor()) {
             quantidadeCaracteres--;
         }
 
@@ -73,12 +73,12 @@ public class TransacaoRepositoryImpl implements TransacaoRepository {
     private int obterValorTransacao(final TransacaoFiltro transacaoFiltro, final int indice) {
         var valor = transacaoFiltro.getId() + transacaoFiltro.getAno() + indice;
 
-        if (valor > TransacaoAlcance.ALCANCE_MAXIMO_VALOR.getAlcance()) {
-            valor--;
+        if (valor > TransacaoAlcance.ALCANCE_MAXIMO_VALOR.getValor()) {
+            valor = TransacaoAlcance.ALCANCE_MAXIMO_VALOR.getValor();
         }
 
-        if (valor < TransacaoAlcance.ALCANCE_MINIMO_VALOR.getAlcance()) {
-            valor++;
+        if (valor < TransacaoAlcance.ALCANCE_MINIMO_VALOR.getValor()) {
+            valor = TransacaoAlcance.ALCANCE_MINIMO_VALOR.getValor();
         }
 
         return valor;
